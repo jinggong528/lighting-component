@@ -25,7 +25,7 @@ export default class DisplayBrightness extends Component {
   }
 }
 
-DisplayBrightness.PropTypes = {
+DisplayBrightness.propTypes = {
   percentage: PropTypes.number
 };
 

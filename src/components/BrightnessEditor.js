@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { CircularSlider } from "./circular-slider";
 import DisplayBrightness from "./DisplayBrightness";
-import { defaultProps } from "recompose";
 import PropTypes from "prop-types";
 
 const StyledCircularSlider = styled(CircularSlider)``;
@@ -64,7 +63,7 @@ export default class BrightnessEditor extends Component {
   }
 }
 
-BrightnessEditor.PropTypes = {
+BrightnessEditor.propTypes = {
   size: PropTypes.number,
   percentage: PropTypes.number,
   onChange: PropTypes.func

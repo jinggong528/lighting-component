@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { Table, Input, Txt, Container } from "rendition";
 import styled from "styled-components";
 import LightApiClient from "../clients/LightApiClient";
-import Switch from "react-toggle-switch";
 import "react-toggle-switch/dist/css/switch.min.css";
 import BrightnessEditor from "./BrightnessEditor";
+import LightActiveCell from "./LightActiveCell";
 
 const StyledContainer = styled(Container)`
   display: inline-flex;
@@ -21,14 +21,6 @@ const BrightnessEditorContainer = styled.div`
 const LightNameInput = styled(Input)`
   border: 0px;
   background: none;
-`;
-const LightActiveP = styled.span`
-  padding-left: 10px;
-`;
-
-const LightActiveCell = styled.div`
-  display: inline-flex;
-  align-items: center;
 `;
 
 class LightTable extends Component {
@@ -97,13 +89,10 @@ class LightTable extends Component {
         field: "active",
         label: "State",
         render: (active, row) => (
-          <LightActiveCell>
-            <Switch
-              onClick={() => this.updateLightState(!active, row)}
-              on={active}
-            />
-            <LightActiveP> {active ? "On" : "Off"}</LightActiveP>
-          </LightActiveCell>
+          <LightActiveCell
+            active={active}
+            onClick={value => this.updateLightState(value, row)}
+          />
         )
       },
       {

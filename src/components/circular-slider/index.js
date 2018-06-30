@@ -39,15 +39,9 @@ export class CircularSlider extends Component {
     this.props.onMove(newAngle);
   };
   render() {
-    const { color, arcStart, arcEnd, angle } = this.props;
+    const { arcStart, arcEnd, angle } = this.props;
     const r = this.r;
     const relCenterPos = this.center;
-    const relPosition = polarToCartesian(
-      relCenterPos.x,
-      relCenterPos.y,
-      r,
-      angle
-    );
     const radialPosition = polarToCartesian(0, 0, r, angle);
     return (
       <SquareSVG
