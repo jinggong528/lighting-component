@@ -5,6 +5,7 @@ import LightApiClient from "../clients/LightApiClient";
 import Switch from "react-toggle-switch";
 import PercentageEditor from "./PercentageEditor";
 import "react-toggle-switch/dist/css/switch.min.css";
+import BrightnessEditor from "./BrightnessEditor";
 
 const StyledContainer = styled(Container)`
   // display: inline-flex;
@@ -102,6 +103,7 @@ class LightTable extends Component {
           data={this.state.data}
           rowKey="id"
         />
+        <BrightnessEditor />
       </StyledContainer>
     );
   }
