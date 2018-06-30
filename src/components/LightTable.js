@@ -3,16 +3,19 @@ import { Table, Input, Txt, Container } from "rendition";
 import styled from "styled-components";
 import LightApiClient from "../clients/LightApiClient";
 import Switch from "react-toggle-switch";
-import PercentageEditor from "./PercentageEditor";
 import "react-toggle-switch/dist/css/switch.min.css";
 import BrightnessEditor from "./BrightnessEditor";
 
 const StyledContainer = styled(Container)`
-  // display: inline-flex;
-  width: 200%;
+  display: inline-flex;
+  width: 100%;
 `;
 const StyledTable = styled(Table)`
-  padding: 5px;
+  margin: 30px;
+`;
+const BrightnessEditorContainer = styled.div`
+  background: #3b3c41;
+  border-radius: 5px;
   margin: 30px;
 `;
 const LightNameInput = styled(Input)`
@@ -27,26 +30,29 @@ const LightActiveCell = styled.div`
   display: inline-flex;
   align-items: center;
 `;
-const StyledPercentageEditor = styled(PercentageEditor)`
-  width: 50%;
-  flex: 1 1;
-`;
 
 class LightTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
       data: [],
-      switch: false
+      switch: false,
+      activeRow: null
     };
   }
+
+  activeRowEle = null;
 
   componentDidMount() {
     this.getLights();
   }
   getLights() {
     return LightApiClient.getDevices().then(res => {
-      this.setState({ data: res.data });
+      let activeRow = null;
+      if (this.state.activeRow) {
+        activeRow = res.data.find(r => r.id === this.state.activeRow.id);
+      }
+      this.setState({ data: res.data, activeRow });
     });
   }
   updateLightName(name, row) {
@@ -56,6 +62,22 @@ class LightTable extends Component {
   updateLightState(active, row) {
     const newLight = { ...row, active };
     return LightApiClient.updateDevice(newLight).then(() => this.getLights());
+  }
+  updateLightPercentage(brightness) {
+    const newLight = { ...this.state.activeRow, brightness };
+    console.log(newLight);
+    return LightApiClient.updateDevice(newLight).then(() => this.getLights());
+  }
+  setActiveColumn(row, ele) {
+    // set active row when selected
+    // similar to onchecked but we do not want the check boxes
+    const rowEle = ele.currentTarget.parentElement;
+    if (this.activeRowEle) {
+      this.activeRowEle.dataset.checked = false;
+    }
+    rowEle.dataset.checked = true;
+    this.activeRowEle = rowEle;
+    this.setState({ activeRow: row });
   }
   getColumns() {
     return [
@@ -87,13 +109,23 @@ class LightTable extends Component {
       {
         field: "brightness",
         label: "Brightness",
-        render: percentage => (
-          <Txt tooltip={{ placement: "right", text: "Test", trigger: "click" }}>
-            {percentage}%
-          </Txt>
-        )
+        render: percentage => <Txt>{percentage}%</Txt>
       }
     ];
+  }
+  renderLightEditor(row) {
+    if (!row) {
+      return;
+    }
+    const { brightness } = row;
+    return (
+      <BrightnessEditorContainer>
+        <BrightnessEditor
+          percentage={brightness}
+          onChange={p => this.updateLightPercentage(p)}
+        />
+      </BrightnessEditorContainer>
+    );
   }
   render() {
     return (
@@ -102,8 +134,9 @@ class LightTable extends Component {
           columns={this.getColumns()}
           data={this.state.data}
           rowKey="id"
+          onRowClick={(v, e) => this.setActiveColumn(v, e)}
         />
-        <BrightnessEditor />
+        {this.renderLightEditor(this.state.activeRow)}
       </StyledContainer>
     );
   }

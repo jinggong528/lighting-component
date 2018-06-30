@@ -9,7 +9,7 @@ const Container = styled.div`
 `;
 
 const StyleSun = styled(Sun)`
-  color: yellow;
+  color: #fec400;
   font-size: 20px;
 `;
 
@@ -26,7 +26,7 @@ export default class DisplayBrightness extends Component {
 }
 
 DisplayBrightness.PropTypes = {
-  percentage: PropTypes.isNumber
+  percentage: PropTypes.number
 };
 
 DisplayBrightness.defaultProps = {

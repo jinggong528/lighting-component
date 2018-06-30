@@ -14,12 +14,12 @@ export const SquareSVG = styled.svg`
 `;
 
 export class CircularSlider extends Component {
-  padding = 20;
   center = {
-    x: this.props.r + this.padding,
-    y: this.props.r + this.padding
+    x: this.props.r,
+    y: this.props.r
   };
-  size = 2 * (this.props.r + this.padding);
+  size = 2 * this.props.r;
+  r = this.props.r - 20;
   absoluteContainerPosition = () => {
     if (!this.containerNode) {
       return null;
@@ -31,7 +31,7 @@ export class CircularSlider extends Component {
     const { x: fiducialX, y: fiducialY } = polarToCartesian(
       0,
       0,
-      this.props.r,
+      this.r,
       this.props.angle
     );
     const deltaTheta = calcAngleDiff(x, y, fiducialX, -fiducialY);
@@ -39,7 +39,8 @@ export class CircularSlider extends Component {
     this.props.onMove(newAngle);
   };
   render() {
-    const { color, arcStart, arcEnd, r, angle } = this.props;
+    const { color, arcStart, arcEnd, angle } = this.props;
+    const r = this.r;
     const relCenterPos = this.center;
     const relPosition = polarToCartesian(
       relCenterPos.x,
@@ -48,11 +49,6 @@ export class CircularSlider extends Component {
       angle
     );
     const radialPosition = polarToCartesian(0, 0, r, angle);
-    console.log(`
-    radialPosition: ${radialPosition}
-    angle: ${angle}
-    arcEnd: ${arcEnd}
-    `);
     return (
       <SquareSVG
         innerRef={x => {
