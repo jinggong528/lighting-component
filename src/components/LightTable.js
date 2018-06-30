@@ -11,12 +11,12 @@ const StyledContainer = styled(Container)`
   width: 100%;
 `;
 const StyledTable = styled(Table)`
-  margin: 30px;
+  margin: 10px;
 `;
 const BrightnessEditorContainer = styled.div`
   background: #3b3c41;
   border-radius: 5px;
-  margin: 30px;
+  margin: 10px;
 `;
 const LightNameInput = styled(Input)`
   border: 0px;
