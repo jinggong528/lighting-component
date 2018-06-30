@@ -57,7 +57,6 @@ class LightTable extends Component {
   }
   updateLightPercentage(brightness) {
     const newLight = { ...this.state.activeRow, brightness };
-    console.log(newLight);
     return LightApiClient.updateDevice(newLight).then(() => this.getLights());
   }
   setActiveColumn(row, ele) {
