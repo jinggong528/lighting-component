@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Table, Input, Txt, Container } from "rendition";
 import styled from "styled-components";
 import LightApiClient from "../clients/LightApiClient";
-import "react-toggle-switch/dist/css/switch.min.css";
 import BrightnessEditor from "./BrightnessEditor";
 import LightActiveCell from "./LightActiveCell";
 
@@ -29,7 +28,7 @@ class LightTable extends Component {
     this.state = {
       data: [],
       switch: false,
-      activeRow: null
+      activeRow: {}
     };
   }
 
@@ -40,9 +39,9 @@ class LightTable extends Component {
   }
   getLights() {
     return LightApiClient.getDevices().then(res => {
-      let activeRow = null;
-      if (this.state.activeRow) {
-        activeRow = res.data.find(r => r.id === this.state.activeRow.id);
+      let activeRow = res.data.find(r => r.id === this.state.activeRow.id);
+      if (!activeRow) {
+        activeRow = {};
       }
       this.setState({ data: res.data, activeRow });
     });
@@ -101,16 +100,13 @@ class LightTable extends Component {
       }
     ];
   }
-  renderLightEditor(row) {
-    if (!row) {
-      return;
-    }
-    const { brightness } = row;
+  renderLightEditor({ brightness }) {
     return (
       <BrightnessEditorContainer>
         <BrightnessEditor
           percentage={brightness}
           onChange={p => this.updateLightPercentage(p)}
+          disabled={brightness !== undefined ? false : true}
         />
       </BrightnessEditorContainer>
     );
@@ -122,7 +118,7 @@ class LightTable extends Component {
           columns={this.getColumns()}
           data={this.state.data}
           rowKey="id"
-          onRowClick={(v, e) => this.setActiveColumn(v, e)}
+          onRowClick={(r, e) => this.setActiveColumn(r, e)}
         />
         {this.renderLightEditor(this.state.activeRow)}
       </StyledContainer>

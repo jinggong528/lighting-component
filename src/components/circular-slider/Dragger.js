@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { pauseEvent, absTouchPos, absMousePos } from "../helpers/eventHelpers";
+import { pauseEvent, absTouchPos, absMousePos } from "./helpers/eventHelpers";
 
 export class Dragger extends Component {
   state = {
@@ -61,13 +61,19 @@ export class Dragger extends Component {
     };
   };
   render() {
-    const { relCenterPos, radialPosition, radius, color } = this.props;
+    const {
+      relCenterPos,
+      radialPosition,
+      radius,
+      color,
+      outColor
+    } = this.props;
     return (
       <g>
         <circle
           cx={relCenterPos.x + radialPosition.x}
           cy={relCenterPos.y + radialPosition.y}
-          fill="white"
+          fill={outColor}
           onMouseDown={this.handleMouseDown}
           onTouchStart={this.handleTouchStart}
           r={radius}

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-
+import "react-toggle-switch/dist/css/switch.min.css";
 import Switch from "react-toggle-switch";
 
 const Container = styled.div`
@@ -8,15 +8,15 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const LightActiveP = styled.span`
+const LightActiveS = styled.span`
   padding-left: 10px;
 `;
 
-const LightActiveCell = ({ onClick = () => {}, active }) => {
+const LightActiveCell = ({ onClick = () => {}, active = false, ...rest }) => {
   return (
-    <Container>
+    <Container {...rest}>
       <Switch onClick={() => onClick(!active)} on={active} />
-      <LightActiveP> {active ? "On" : "Off"}</LightActiveP>
+      <LightActiveS> {active ? "On" : "Off"}</LightActiveS>
     </Container>
   );
 };

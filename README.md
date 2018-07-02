@@ -6,7 +6,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "rendition";
-
 import { Lighting } from "./lighting";
 
 ReactDOM.render(

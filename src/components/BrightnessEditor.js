@@ -4,7 +4,6 @@ import { CircularSlider } from "./circular-slider";
 import DisplayBrightness from "./DisplayBrightness";
 import PropTypes from "prop-types";
 
-const StyledCircularSlider = styled(CircularSlider)``;
 const StyledDisplayBrightness = styled(DisplayBrightness)`
   position: absolute;
   top: 50%;
@@ -43,21 +42,19 @@ export default class BrightnessEditor extends Component {
     return Math.round((100 * (angle - start)) / range);
   }
   render() {
-    const { percentage } = this.props;
+    const { percentage, disabled, size } = this.props;
     const angle = this.setAngle(percentage);
     return (
-      <Editor size={this.props.size * 2}>
-        <StyledCircularSlider
-          r={this.props.size}
+      <Editor size={size}>
+        <CircularSlider
+          r={size / 2}
           angle={angle}
           arcEnd={this.state.end}
           arcStart={this.state.start}
+          disabled={disabled}
           onMove={angle => this.changeBrightness(angle)}
         />
-        <StyledDisplayBrightness
-          size={this.props.size}
-          percentage={percentage}
-        />
+        <StyledDisplayBrightness percentage={percentage} disabled={disabled} />
       </Editor>
     );
   }
@@ -66,11 +63,13 @@ export default class BrightnessEditor extends Component {
 BrightnessEditor.propTypes = {
   size: PropTypes.number,
   percentage: PropTypes.number,
+  disabled: PropTypes.bool,
   onChange: PropTypes.func
 };
 
 BrightnessEditor.defaultProps = {
-  size: 200,
-  percentage: 50,
+  size: 400,
+  percentage: 0,
+  disabled: true,
   onChange: () => {}
 };

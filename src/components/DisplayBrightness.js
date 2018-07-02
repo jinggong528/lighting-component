@@ -1,34 +1,30 @@
-import React, { Component } from "react";
+import React from "react";
 import Sun from "react-icons/lib/fa/sun-o";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 
 const Container = styled.div`
   text-align: center;
-  color: white;
+  color: ${({ disabled }) => (disabled ? "grey" : "white")};
 `;
 
 const StyleSun = styled(Sun)`
-  color: #fec400;
+  color: ${({ disabled }) => (disabled ? "grey" : "#fec400")};
+  font-size: 20px;
+`;
+const PercentSign = styled.span`
   font-size: 20px;
 `;
 
-export default class DisplayBrightness extends Component {
-  render() {
-    return (
-      <Container {...this.props}>
-        <StyleSun />
-        <h1> {this.props.percentage}% </h1>
-        <p> Brightness </p>
-      </Container>
-    );
-  }
-}
+const DisplayBrightness = ({ percentage = 0, disabled = true, ...props }) => (
+  <Container disabled={disabled} {...props}>
+    <StyleSun disabled={disabled} />
+    <h1>
+      {" "}
+      {percentage}
+      <PercentSign> %</PercentSign>{" "}
+    </h1>
+    <p> Brightness </p>
+  </Container>
+);
 
-DisplayBrightness.propTypes = {
-  percentage: PropTypes.number
-};
-
-DisplayBrightness.defaultProps = {
-  percentage: 0
-};
+export default DisplayBrightness;

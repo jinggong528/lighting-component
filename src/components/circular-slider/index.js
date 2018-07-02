@@ -6,7 +6,7 @@ import {
   circularArc,
   calcAngleDiff
 } from "./helpers/geometryHelpers";
-import { Dragger } from "./components/Dragger";
+import { Dragger } from "./Dragger";
 
 export const SquareSVG = styled.svg`
   width: ${props => `${props.size}px`};
@@ -19,7 +19,7 @@ export class CircularSlider extends Component {
     y: this.props.r
   };
   size = 2 * this.props.r;
-  r = this.props.r - 20;
+  r = this.props.r - 60;
   absoluteContainerPosition = () => {
     if (!this.containerNode) {
       return null;
@@ -74,9 +74,9 @@ export class CircularSlider extends Component {
 
         <Dragger
           absoluteContainerFunc={this.absoluteContainerPosition}
-          color={"#fec400"}
-          outColor={"white"}
-          onMove={this.handleDrag}
+          color={this.props.disabled ? "grey" : "#fec400"}
+          outColor={this.props.disabled ? "grey" : "white"}
+          onMove={this.props.disabled ? () => {} : this.handleDrag}
           radialPosition={radialPosition}
           relCenterPos={relCenterPos}
           radius={16}
@@ -90,8 +90,8 @@ CircularSlider.propTypes = {
   angle: PropTypes.number,
   arcEnd: PropTypes.number,
   arcStart: PropTypes.number,
-  color: PropTypes.string,
   onMove: PropTypes.func,
+  disabled: PropTypes.bool,
   r: PropTypes.number
 };
 
@@ -99,7 +99,7 @@ CircularSlider.defaultProps = {
   angle: 200,
   arcEnd: 360,
   arcStart: 180,
-  color: "darkseagreen",
+  disabled: false,
   onMove: () => {},
   r: 100
 };
