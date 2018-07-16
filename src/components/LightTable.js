@@ -106,7 +106,7 @@ class LightTable extends Component {
         <BrightnessEditor
           percentage={brightness}
           onChange={p => this.updateLightPercentage(p)}
-          disabled={brightness !== undefined ? false : true}
+          disabled={brightness == undefined ? false : true}
         />
       </BrightnessEditorContainer>
     );
